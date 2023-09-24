@@ -1,15 +1,51 @@
-﻿@page "/login"
+﻿@page "/LOGIN"
 @inject Account _account
-<h3>Login</h3>
-@foreach(var user in users)
-{
-    <h3>@user.UserName</h3>
+@inject SignInManager<AppUser> SignInMgr
+@inject UserManager<AppUser> UserMgr
 
-}
+
+<h3>Login</h3>
+<EditForm Model="loginDTO" OnValidSubmit="Save">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+               <div>
+                <lable>Email</lable>
+                <InputText @bind-Value="loginDTO.Email" class="form-control"></InputText>
+        <ValidationMessage For="()=>loginDTO.Email" class="text-danger"></ValidationMessage>
+            </div>
+            <div>
+                <lable>Password</lable>
+        <InputText type="password" @bind-Value="loginDTO.Password" class="form-control"></InputText>
+        <ValidationMessage For="()=>loginDTO.Password" class="text-danger"></ValidationMessage>
+            </div>
+    <input type="submit" value="Save" />
+</EditForm>
+
 @code {
-    public List<IdentityUser> users { get; set; } = new List<IdentityUser>();
+    public LoginDTO loginDTO { get; set; } = new LoginDTO();
+
     protected override async Task OnInitializedAsync()
     {
-        users = await _account.getAllUsers();
     }
+    [Inject]
+    public NavigationManager navManager { get; set; }
+
+    public async Task Save()
+    {
+        var user = await UserMgr.FindByEmailAsync(loginDTO.Email);
+        await  SignInMgr.SignInAsync(user, loginDTO.presisted);
+
+      
+
+        
+
+            // Redirect to the home page on successful login
+            navManager.NavigateTo("/");
+
+               // Optionally, you can display an error message on login failure
+        // You can set a property to display an error message in your component
+            // For example: errorMessage = "Login failed. Please check your credentials."
+    }
+   
+
 }
