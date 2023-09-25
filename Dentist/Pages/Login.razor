@@ -1,10 +1,15 @@
-﻿@page "/LOGIN"
+﻿@page "/login"
 @inject Account _account
 @inject SignInManager<AppUser> SignInMgr
 @inject UserManager<AppUser> UserMgr
+@inject AuthenticationStateProvider AuthStatProvider
+@inject ILocalStorageService localStorage
 
 
 <h3>Login</h3>
+
+<h3>Token : @Token</h3>
+
 <EditForm Model="loginDTO" OnValidSubmit="Save">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <ValidationSummary></ValidationSummary>
@@ -20,32 +25,52 @@
             </div>
     <input type="submit" value="Save" />
 </EditForm>
-
+<AuthorizeView>
+    <button @onclick="LogOut">Log Out</button>
+</AuthorizeView>
 @code {
     public LoginDTO loginDTO { get; set; } = new LoginDTO();
 
-    protected override async Task OnInitializedAsync()
+    public string Token { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            // Fetch the token from local storage
+            Token = await localStorage.GetItemAsStringAsync("token");
+
+            // Update the authentication state
+            await AuthStatProvider.GetAuthenticationStateAsync();
+        }
     }
     [Inject]
     public NavigationManager navManager { get; set; }
 
     public async Task Save()
     {
-        var user = await UserMgr.FindByEmailAsync(loginDTO.Email);
-        await  SignInMgr.SignInAsync(user, loginDTO.presisted);
-
-      
-
-        
-
-            // Redirect to the home page on successful login
-            navManager.NavigateTo("/");
-
-               // Optionally, you can display an error message on login failure
-        // You can set a property to display an error message in your component
-            // For example: errorMessage = "Login failed. Please check your credentials."
+        AppUser? user = await UserMgr.FindByEmailAsync(loginDTO.Email);
+        if (user != null)
+        {
+            bool valid = await UserMgr.CheckPasswordAsync(user, loginDTO.Password);
+            if (valid)
+            {
+                var userRoles = await UserMgr.GetRolesAsync(user);
+                var token = _account.LoginGenerateToken(loginDTO , user , userRoles.ToList());
+                Token = token;
+                Console.WriteLine(token);
+                await localStorage.SetItemAsync("token", token);
+                await AuthStatProvider.GetAuthenticationStateAsync();
+            }           
+        }
+        else
+            navManager.NavigateTo("/login");    
     }
-   
 
+    public async void LogOut()
+    {
+        await localStorage.RemoveItemAsync("token");
+        await AuthStatProvider.GetAuthenticationStateAsync();
+    }
 }

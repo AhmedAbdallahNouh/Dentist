@@ -1,10 +1,15 @@
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Blazored.LocalStorage;
 using Dentist.Data;
 using Dentist.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.JSInterop;
+using System.Text;
 
 namespace Dentist
 {
@@ -16,8 +21,12 @@ namespace Dentist
 
             // Add services to the container.
             builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
+            //builder.Services.AddServerSideBlazor();
 
+            builder.Services.AddServerSideBlazor(options =>
+            {
+                options.JSInteropDefaultCallTimeout = TimeSpan.FromMinutes(2); 
+            });
             builder.Services.AddDbContext<DentistDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("default")));
             //Identity
              builder.Services.AddIdentity<AppUser, IdentityRole>(options => //Identity
@@ -35,9 +44,24 @@ namespace Dentist
 
             builder.Services.AddSingleton<WeatherForecastService>();
             builder.Services.AddScoped<Account>();
+            builder.Services.AddScoped<Token>();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+            builder.Services.AddBlazoredLocalStorage();
             //builder.Services.AddScoped<JSRuntime>();
 
-
+            //JWT Validate
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_123456"))
+                };
+            });
 
 
             var app = builder.Build();

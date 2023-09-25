@@ -56,7 +56,90 @@ namespace Dentist.Services
                 else return false;                       
         }
 
+        public string LoginGenerateToken(LoginDTO loginDTO, AppUser user , List<string> userRoles)
+        {
 
+            //Generate Token
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_123456"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+
+
+            //Get Role
+            //var userRoles = await _userManager.GetRolesAsync(user);
+            foreach (var userRole in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
+            var myToken = new JwtSecurityToken(
+            expires: DateTime.Now.AddMinutes(120),
+            signingCredentials: credentials,
+            claims: claims);
+
+            var token = new JwtSecurityTokenHandler().WriteToken(myToken);
+
+
+            return token;
+
+
+
+
+            //AppUser? user = await _userManager.FindByEmailAsync(loginDTO.Email);
+            //if (user != null)
+            //{
+            //    //await _signInManager.SignInAsync(user, loginDTO.presisted);
+
+            //        bool valid = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
+            //        if (valid)
+            //        {
+
+            //        //Generate Token
+            //        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_123456"));
+            //        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            //        var claims = new List<Claim>();
+            //        claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            //        claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            //        claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+
+
+            //        //Get Role
+            //        var userRoles = await _userManager.GetRolesAsync(user);
+            //        foreach (var userRole in userRoles)
+            //        {
+            //            claims.Add(new Claim(ClaimTypes.Role, userRole));
+            //        }
+
+
+            //        var myToken = new JwtSecurityToken(
+            //        expires: DateTime.Now.AddMinutes(120),
+            //        signingCredentials: credentials,
+            //        claims: claims);
+            //        var token = new JwtSecurityTokenHandler().WriteToken(myToken);
+
+
+            //        return token;
+
+
+            //        }
+            //    return "Wrong Email Or Password";
+
+            //}
+
+            //else return "User Not Found";
+        }
+               
+
+           
+           
+
+  
         public async Task<bool> Login(LoginDTO loginDTO)
         {
             try
