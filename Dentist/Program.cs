@@ -1,8 +1,10 @@
 using Dentist.Data;
+using Dentist.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
 
 namespace Dentist
 {
@@ -15,10 +17,11 @@ namespace Dentist
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
+
             builder.Services.AddDbContext<DentistDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("default")));
             //Identity
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
+             builder.Services.AddIdentity<AppUser, IdentityRole>(options => //Identity
+             {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 5;
                 options.Password.RequireLowercase = false;
@@ -27,9 +30,15 @@ namespace Dentist
                 options.SignIn.RequireConfirmedEmail = false;
 
             })
-                .AddEntityFrameworkStores<DentistDbContext>();
+                .AddEntityFrameworkStores<DentistDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddScoped<Account>();
+            //builder.Services.AddScoped<JSRuntime>();
+
+
+
 
             var app = builder.Build();
 
