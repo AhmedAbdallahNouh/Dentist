@@ -104,6 +104,10 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+#mainNav .navbar-nav .nav-item .nav-link :focus {
+    color: black !important;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -246,11 +250,11 @@ sup {
 }
 
 a {
-  color: var(--bs-link-color);
+  color: white;
   text-decoration: underline;
 }
 a:hover {
-  color: var(--bs-link-hover-color);
+    color: #E6D2AF;
 }
 
 /*a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -3788,6 +3792,8 @@ textarea.form-control-lg {
 }
 .navbar-brand:hover, .navbar-brand:focus {
   color: var(--bs-navbar-brand-hover-color);
+
+
 }
 
 .navbar-nav {
@@ -10911,16 +10917,24 @@ p {
   text-transform: uppercase;
 }
 #mainNav .navbar-brand img {
-  height: 1.5rem;
+  height: 3.5rem;
 }
-#mainNav .navbar-nav .nav-item .nav-link {
-  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 0.95rem;
-  color: #fff;
-  letter-spacing: 0.0625em;
-}
-#mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
-  color: #ffc800;
+    #mainNav .navbar-nav .nav-item .nav-link {
+        color: #FFFFFF;
+        letter-spacing: 0.0625em;
+        font-family: "Avenir", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1em;
+        letter-spacing: 1px;
+    }
+    #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
+        color: #E6D2AF;
+        text-decoration-line: underline;
+        text-decoration-color: #E6D2AF;
+        text-decoration-thickness: 5px;
+    }
 }
 
 @media (min-width: 992px) 
@@ -11526,28 +11540,122 @@ button.stop {
 }
 
 
-/*#toastBox {
-    position: absolute;
-    top: -10px;
-    left: 2px;
-    color: #fff;
-    padding: 5px;
-    font-size: 14px;
-    width: 2rem;
-    height: 20px;
-    border-radius: 50%;
-    font-size: xx-large;
+.book-now-btn {
+    font-size: 2rem;
+    font-family: "Avenir", sans-serif;
+    font-weight: bolder;
+    background-color: #E6D2AF;
+    border-radius: 27px;
+    line-height: 1;
+    text-transform: uppercase;
+    padding: 16px 32px 16px 32px;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #E6D2AF;
+    border-radius: 50px 50px 50px 50px;
+    margin-left: 34%;
+    margin-bottom: 8rem;
 }
-*/
 
-/*position: absolute;
-top: 10px;
-left: 10px;
-background-color: #d70e0e;
-box-shadow: darkblue;
-color: #fff;
-padding: 5px;
-font-size: 14px;
-width: 16px;
-height: 16px;
-border-radius: 50%;*/
+    .book-now-btn:hover {
+        background-color: black;
+        color: #E6D2AF;
+    }
+
+@media (min-width: 254px) and (max-width: 513px) {
+    /* Your CSS styles for this range go here */
+    .book-now-btn {
+        width: 10rem;
+        font-size: 1rem;
+        margin-left: -1rem;
+    }
+    /* Add more styles as needed */
+}
+
+.dnt-video {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    line-height: 1;
+    border: none;
+}
+
+.dnt-main-h1 {
+    font-family: "Avenir", ui-sans-serif;
+    font-size: 6.875rem;
+    font-weight: 900;
+    line-height: 1em;
+}
+
+.dnt-main-p {
+    font-size: 20px;
+    font-weight: 400;
+    font-family: "Avenir", sans-serif;
+}
+
+.dnt-main-h2 {
+    font-family: "Avenir", Sans-serif;
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: lowercase;
+    line-height: 1em;
+}
+
+ul{
+    list-style-type:none;
+}
+
+.our-promise-main-icon {
+    color: #E3D2B3;
+}
+
+.our-promise-main-span {
+    font-family: "Avenir", Sans-serif;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 2.2em;
+    letter-spacing: 0.25px;
+    padding-left: 10px;
+}
+
+.main-image-container {
+    position: relative; /* Make sure the container is relatively positioned */
+}
+
+    .main-image-container::before {
+        content: '';
+        background-color: #E3D2B3 !important;
+        display: block;
+        width: 45% !important;
+        height: 100% !important;
+        left: -20px !important;
+        top: -51px !important;
+        z-index: -1 !important;
+        position: absolute !important;
+        position: absolute;
+        left: 0;
+        width: 10%;
+        background-color: black;
+    }
+
+.main-image-container img {
+    width: 89%;
+    display: block; /* Ensure the image is a block-level element */
+    margin: 0 auto; /* Center the image horizontally within the container */
+}
+
+.footer-img {
+    margin-bottom: 5rem;
+    width: 23%;
+    padding-top: 3rem;   
+}
+
+.elementor-item {
+    font-family: "Avenir", sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1em;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
