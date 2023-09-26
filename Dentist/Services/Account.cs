@@ -47,7 +47,11 @@ namespace Dentist.Services
                    
                };
                 IdentityResult addUserResult = await _userManager.CreateAsync(user, registrationDTO.Password);
-                IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Patient");
+
+                IdentityRole role = new IdentityRole("Doctor");
+                IdentityResult result = await _roleManager.CreateAsync(role);
+
+                IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Doctor");
        
                 if (addUserResult.Succeeded && addRoleToUserResult.Succeeded)
                 {

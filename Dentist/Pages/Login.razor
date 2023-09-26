@@ -62,6 +62,7 @@
                 Console.WriteLine(token);
                 await localStorage.SetItemAsync("token", token);
                 await AuthStatProvider.GetAuthenticationStateAsync();
+                navManager.NavigateTo("/");    
             }           
         }
         else

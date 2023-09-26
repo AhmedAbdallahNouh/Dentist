@@ -9,13 +9,12 @@ namespace Dentist.Services
     {
         private readonly ILocalStorageService _localStorage;
         private readonly Token _token;
-
-        //private readonly HttpClient _http;
-        public CustomAuthStateProvider(ILocalStorageService localStorage/*, HttpClient http */ , Token token)
+        private readonly HttpClient _http;
+        public CustomAuthStateProvider(ILocalStorageService localStorage, HttpClient http, Token token)
         {
             this._localStorage = localStorage;
             this._token = token;
-            //this._http = http;
+            this._http = http;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -25,13 +24,13 @@ namespace Dentist.Services
             {
               var token =  await _localStorage.GetItemAsStringAsync("token");
               var identity = new ClaimsIdentity();
-                //_http.DefaultRequestHeaders.Authorization = null;
+                _http.DefaultRequestHeaders.Authorization = null;
 
                 if (!string.IsNullOrEmpty(token))
                 {
                     identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
-                    //_http.DefaultRequestHeaders.Authorization =
-                    //    new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
+                    _http.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
                 }
 
                 var user = new ClaimsPrincipal(identity);

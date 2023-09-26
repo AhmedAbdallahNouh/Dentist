@@ -1,8 +1,8 @@
 ﻿@page "/"
 @inject AuthenticationStateProvider AuthStatProvider
 @inject ILocalStorageService localStorage
-@* @attribute [Authorize] *@
-
+@attribute [Authorize] 
+    
 
 <PageTitle>Index</PageTitle>
 
@@ -66,17 +66,16 @@ Welcome to your new app.
 
 @code
 {
-
+   
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
+        
             // Fetch the token from local storage
             await localStorage.GetItemAsStringAsync("token");
 
             // Update the authentication state
             await AuthStatProvider.GetAuthenticationStateAsync();
-        }
+       
     }
 
 

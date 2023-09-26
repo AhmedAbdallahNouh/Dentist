@@ -56,7 +56,8 @@
     public async void Save()
     {
         await _account.Registration(registrationDTO);
-        navManager.NavigateTo("/");
+        navManager.NavigateTo("/login");    
+
     }
 }
   
