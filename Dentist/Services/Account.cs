@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 
 namespace Dentist.Services
@@ -15,16 +16,17 @@ namespace Dentist.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IEmailService _emailService;
 
 
         //private readonly IEmailSender _emailSender;
 
-        public Account(UserManager<AppUser> _userManager, RoleManager<IdentityRole> _roleManager , SignInManager<AppUser> _signInManager)
+        public Account(UserManager<AppUser> _userManager, RoleManager<IdentityRole> _roleManager , SignInManager<AppUser> _signInManager, IEmailService emailService)
         {
             this._userManager = _userManager;
             this._roleManager = _roleManager;
             this._signInManager = _signInManager;
-            //this._emailSender = emailSender;
+            this._emailService = emailService;
         }
 
         public async Task<List<AppUser>> getAllUsers()
@@ -185,6 +187,36 @@ namespace Dentist.Services
                 return false;
             }
             
+        }
+
+
+        public async Task<string> forgotPassword(string email)
+
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                AppUser? user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
+                {
+
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    //token = HttpUtility.UrlEncode(token);
+                    //var link = Url.Action(nameof(ResetPassword), "User", new { token, email = user.Email }, Request.Scheme);
+
+                    EmailDto request = new EmailDto()
+                    {
+                        To = email,
+                        Subject = "Reset Password",
+                        Body = EmailBody.EmailStringBody(email, token)
+                    };
+                    _emailService.SendEmail(request);
+                    return "Email Sent";
+
+                }
+                return "user not found";
+            }
+            return "email paramater is null";
+
         }
 
     }

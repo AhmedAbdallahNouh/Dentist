@@ -74,9 +74,12 @@ body {
 }
 
 .section-heading {
-    font-size: 3rem;
-    color: var(--primary);
-    padding: 2rem 0;
+    color: #E6D2AF;
+    font-family: "Avenir", Sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1em;
 }
 
 #tranding {

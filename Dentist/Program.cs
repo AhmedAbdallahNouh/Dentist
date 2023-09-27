@@ -46,7 +46,7 @@ namespace Dentist
             builder.Services.AddScoped<Account>();
             builder.Services.AddScoped<Token>();
             builder.Services.AddScoped<HttpClient>();
-
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
             builder.Services.AddBlazoredLocalStorage();

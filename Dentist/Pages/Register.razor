@@ -1,53 +1,55 @@
 ﻿@page "/register"
 @inject Account _account
 
-<h3>Register</h3>
 
- <EditForm Model="registrationDTO"  OnValidSubmit="Save">
-     <DataAnnotationsValidator></DataAnnotationsValidator>
+<div class="register-form-div">
+    <EditForm  Model="registrationDTO" OnValidSubmit="Save" class="register-form">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
-          <div>  
-              <lable>First Name</lable>
-              <InputText @bind-Value="registrationDTO.FirstName" class="form-control" ></InputText>
+        <div>
+            <lable login-register-label>First Name</lable>
+            <InputText @bind-Value="registrationDTO.FirstName" class="form-control"></InputText>
             <ValidationMessage For="()=>registrationDTO.FirstName" class="text-danger"></ValidationMessage>
-          </div>
-           <div>
-           <div>
-            <lable>Last Name</lable>
-            <InputText @bind-Value="registrationDTO.LastName" class="form-control"></InputText>
-            <ValidationMessage For="()=>registrationDTO.LastName" class="text-danger"></ValidationMessage>
-           </div>
+        </div>
+        <div>
             <div>
-             <lable>User Name</lable>
-             <InputText @bind-Value="registrationDTO.UserName" class="form-control"></InputText>
-             <ValidationMessage For="()=>registrationDTO.UserName" class="text-danger"></ValidationMessage>
-            </div>
-           <div>
-            <div>
-                <lable>Email</lable>
-                <InputText @bind-Value="registrationDTO.Email" class="form-control"></InputText>
-                <ValidationMessage For="()=>registrationDTO.Email" class="text-danger"></ValidationMessage>
+                <lable login-register-label>Last Name</lable>
+                <InputText @bind-Value="registrationDTO.LastName" class="form-control"></InputText>
+                <ValidationMessage For="()=>registrationDTO.LastName" class="text-danger"></ValidationMessage>
             </div>
             <div>
-                <lable>Password</lable>
-                <InputText type="password" @bind-Value="registrationDTO.Password" class="form-control"></InputText>
-                <ValidationMessage For="()=>registrationDTO.Password" class="text-danger"></ValidationMessage>
+                <lable login-register-label>User Name</lable>
+                <InputText @bind-Value="registrationDTO.UserName" class="form-control"></InputText>
+                <ValidationMessage For="()=>registrationDTO.UserName" class="text-danger"></ValidationMessage>
             </div>
             <div>
-            <lable>Confirm Password</lable>
-                <InputText type="password" @bind-Value="registrationDTO.ConfirmPassword" class="form-control"></InputText>
-            <ValidationMessage For="()=>registrationDTO.ConfirmPassword" class="text-danger"></ValidationMessage>
+                <div>
+                    <lable login-register-label>Email</lable>
+                    <InputText @bind-Value="registrationDTO.Email" class="form-control"></InputText>
+                    <ValidationMessage For="()=>registrationDTO.Email" class="text-danger"></ValidationMessage>
+                </div>
+                <div>
+                    <lable login-register-label>Password</lable>
+                    <InputText type="password" @bind-Value="registrationDTO.Password" class="form-control"></InputText>
+                    <ValidationMessage For="()=>registrationDTO.Password" class="text-danger"></ValidationMessage>
+                </div>
+                <div>
+                    <lable login-register-label>Confirm Password</lable>
+                    <InputText type="password" @bind-Value="registrationDTO.ConfirmPassword" class="form-control"></InputText>
+                    <ValidationMessage For="()=>registrationDTO.ConfirmPassword" class="text-danger"></ValidationMessage>
+                </div>
+                <lable login-register-label>Phone Number</lable>
+                <InputText @bind-Value="registrationDTO.PhoneNumber" class="form-control"></InputText>
+                <ValidationMessage For="()=>registrationDTO.PhoneNumber" class="text-danger"></ValidationMessage>
             </div>
-            <lable>Phone Number</lable>
-            <InputText @bind-Value="registrationDTO.PhoneNumber" class="form-control"></InputText>
-            <ValidationMessage For="()=>registrationDTO.PhoneNumber" class="text-danger"></ValidationMessage>
-            </div>
-                <lable>Address</lable>
-                <InputText @bind-Value="registrationDTO.Address" class="form-control"></InputText>
-                <ValidationMessage For="()=>registrationDTO.Address" class="text-danger"></ValidationMessage>
-            </div>       
-            <input type="submit" value="Save"/>
-  </EditForm>
+            <lable login-register-label>Address</lable>
+            <InputText @bind-Value="registrationDTO.Address" class="form-control"></InputText>
+            <ValidationMessage For="()=>registrationDTO.Address" class="text-danger"></ValidationMessage>
+        </div>
+        <input type="submit" value="Save" />
+    </EditForm>
+</div>
+ 
 @code {
     public RegistrationDTO registrationDTO { get; set; } = new RegistrationDTO();
     [Inject]

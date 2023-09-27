@@ -3,43 +3,48 @@
 @inject SignInManager<AppUser> SignInMgr
 @inject UserManager<AppUser> UserMgr
 @inject AuthenticationStateProvider AuthStatProvider
+@inject IJSRuntime JSruntime
 @inject ILocalStorageService localStorage
 
 
-<h3>Login</h3>
 
-<h3>Token : @Token</h3>
-
-<EditForm Model="loginDTO" OnValidSubmit="Save">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <ValidationSummary></ValidationSummary>
-               <div>
-                <lable>Email</lable>
-                <InputText @bind-Value="loginDTO.Email" class="form-control"></InputText>
-        <ValidationMessage For="()=>loginDTO.Email" class="text-danger"></ValidationMessage>
+<div class="row login-row">
+    <div class="col-6 login-first-column main-login-image-container ">
+        <img class="login-img"  src="/assets/img/dnt/register-login.jpeg"/>
+    </div>
+    <div class="col-4 register-form-div">
+        <EditForm Model="loginDTO" OnValidSubmit="Save">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+            <div>
+                <lable class="login-register-label">Email</lable>
+                <InputText @bind-Value="loginDTO.Email" class="form-control login-input"></InputText>
+                <ValidationMessage For="()=>loginDTO.Email" class="text-danger"></ValidationMessage>
             </div>
             <div>
-                <lable>Password</lable>
-        <InputText type="password" @bind-Value="loginDTO.Password" class="form-control"></InputText>
-        <ValidationMessage For="()=>loginDTO.Password" class="text-danger"></ValidationMessage>
+                <lable class="login-register-label">Password</lable>
+                <InputText type="password" @bind-Value="loginDTO.Password" class="form-control login-input"></InputText>
+                <ValidationMessage For="()=>loginDTO.Password" class="text-danger"></ValidationMessage>
             </div>
-    <input type="submit" value="Save" />
-</EditForm>
-<AuthorizeView>
-    <button @onclick="LogOut">Log Out</button>
-</AuthorizeView>
+            <div class="login-btn-div">
+                <input class="login-btn" type="submit" value="Login" />
+            </div>
+        </EditForm>
+
+        <u><a id="forgot" data-bs-toggle="modal" data-bs-target="#exampleModal" class="font-weight-bold forgot-password-a">Forgot Password.</a></u>
+    </div>
+</div>
+
+<ForgotPasswordModal></ForgotPasswordModal>
+
 @code {
     public LoginDTO loginDTO { get; set; } = new LoginDTO();
-
-    public string Token { get; set; }
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            // Fetch the token from local storage
-            Token = await localStorage.GetItemAsStringAsync("token");
+           
 
             // Update the authentication state
             await AuthStatProvider.GetAuthenticationStateAsync();
@@ -57,8 +62,7 @@
             if (valid)
             {
                 var userRoles = await UserMgr.GetRolesAsync(user);
-                var token = _account.LoginGenerateToken(loginDTO , user , userRoles.ToList());
-                Token = token;
+                var token = _account.LoginGenerateToken(loginDTO , user , userRoles.ToList());          
                 Console.WriteLine(token);
                 await localStorage.SetItemAsync("token", token);
                 await AuthStatProvider.GetAuthenticationStateAsync();
@@ -67,11 +71,5 @@
         }
         else
             navManager.NavigateTo("/login");    
-    }
-
-    public async void LogOut()
-    {
-        await localStorage.RemoveItemAsync("token");
-        await AuthStatProvider.GetAuthenticationStateAsync();
     }
 }

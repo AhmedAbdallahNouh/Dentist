@@ -92,16 +92,18 @@
 }
 
 body {
-  margin: 0;
-  font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
-  font-weight: var(--bs-body-font-weight);
-  line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
-  text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    padding-bottom: 100px;
+    min-height: 74vh;
+    margin: 0;
+    font-family: var(--bs-body-font-family);
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+    color: var(--bs-body-color);
+    text-align: var(--bs-body-text-align);
+    background-color: var(--bs-body-bg);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 #mainNav .navbar-nav .nav-item .nav-link :focus {
@@ -255,6 +257,7 @@ a {
 }
 a:hover {
     color: #E6D2AF;
+    cursor: pointer;
 }
 
 /*a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -3978,6 +3981,7 @@ textarea.form-control-lg {
     .navbar-expand-lg .navbar-nav {
         flex-direction: row;
         direction: ltr;
+        margin-right: 4rem;
     }
   .navbar-expand-lg .navbar-nav .dropdown-menu {
     position: absolute;
@@ -10888,13 +10892,20 @@ p {
 }
 
 .btn-social {
-  height: 2.5rem;
-  width: 2.5rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border-radius: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 100px;
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    font-size: x-large;
+    background-color: white;
+}
+.btn-social:hover {
+    background-color: #E3D2B3 !important;
+    
 }
 
 #mainNav {
@@ -10910,11 +10921,12 @@ p {
   font-weight: 700;
 }
 #mainNav .navbar-brand {
-  color: #ffc800;
-  font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-weight: 700;
-  letter-spacing: 0.0625em;
-  text-transform: uppercase;
+    color: #ffc800;
+    font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 700;
+    letter-spacing: 0.0625em;
+    text-transform: uppercase;
+    margin-left: 5rem;
 }
 #mainNav .navbar-brand img {
   height: 3.5rem;
@@ -11488,8 +11500,7 @@ p {
     font-size: 0.9rem;
     font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     position: absolute;
-    left: 0;
-    bottom: -16rem;
+    bottom: 0;
     width: 100%;
 }
 
@@ -11646,7 +11657,7 @@ ul{
 
 .footer-img {
     margin-bottom: 5rem;
-    width: 23%;
+    width: 53%;
     padding-top: 3rem;   
 }
 
@@ -11658,4 +11669,151 @@ ul{
     line-height: 1em;
     letter-spacing: 1px;
     text-decoration: none;
+}
+
+.footer-first-column {
+    margin-left: 5rem !important;
+}
+
+.foot-sec-cl1 {
+    margin-right: 6rem;
+}
+
+
+.foot-sec-cl-li {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    text-align:start;
+}
+
+.foot-third-cl{
+    margin-top:6rem;
+}
+.foot-third-cl1 {
+    padding-bottom: 1rem;
+    text-align: start;
+    margin-right: 6rem;
+}
+.foot-third-cl1 > h5 {
+    color: #757575;
+}
+
+.foot-third-cl1-h1 {
+    color: #E3D2B3;
+    font-family: "Avenir",;
+    font-size: 2.75rem !important;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1em;
+    letter-spacing: 0.25px;
+}
+
+.foot-third-cl2-h1 {
+    text-align: start;
+    color: #fff;
+}
+
+.register-form-div {
+    margin-bottom: 42rem;
+    width: 32%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1rem;
+    padding-top: 3rem;
+    box-shadow: 0px 2px 9px 4px #ddd;
+}
+
+.register-form {
+    width: 85%;
+    margin: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.login-row {
+    margin-bottom: 20rem;
+    margin-top: 6rem;
+}
+
+.main-login-image-container {
+    margin-left: 6rem;
+    position: relative; /* Make sure the container is relatively positioned */
+}
+
+.main-login-image-container::before {
+    content: '';
+    background-color: #E3D2B3 !important;
+    display: block;
+    width: 33% !important;
+    height: 68% !important;
+    left: -15px !important;
+    top: -41px !important;
+    z-index: -1 !important;
+    position: absolute !important;
+}
+
+.main-login-image-container img {
+    width: 89%;
+    display: block; /* Ensure the image is a block-level element */
+    margin: 0 auto; /* Center the image horizontally within the container */
+}
+
+.login-input {
+    line-height: 2.5;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.login-btn-div {
+    width: 71%;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+}
+
+.login-btn {
+    font-size: 2rem;
+    font-family: "Avenir", sans-serif;
+    font-weight: bolder;
+    background-color: black;
+    border-radius: 27px;
+    padding: 6px 32px 6px 32px;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #E6D2AF;
+    border-radius: 50px 50px 50px 50px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 8rem;
+    font-size: initial;
+    color: #E6D2AF;
+    width:83%
+}
+
+.login-btn:hover {
+    background-color: #E6D2AF;
+    color: black;
+}
+
+.login-register-label {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+
+.forgot-password-a {
+    color: black;
+}
+
+.forgot-password-a :hover{
+    cursor: pointer !important;
+}
+
+.send-message-btn {
+    background-color: black;
+    color: #E6D2AF
+}
+.close-message-btn {
+    background-color: #E6D2AF;
+    color: black
 }
