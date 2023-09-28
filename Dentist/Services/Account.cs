@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
+using System.Web;
 
 namespace Dentist.Services
 {
-    public class Account 
+    public class Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -21,7 +23,7 @@ namespace Dentist.Services
 
         //private readonly IEmailSender _emailSender;
 
-        public Account(UserManager<AppUser> _userManager, RoleManager<IdentityRole> _roleManager , SignInManager<AppUser> _signInManager, IEmailService emailService)
+        public Account(UserManager<AppUser> _userManager, RoleManager<IdentityRole> _roleManager, SignInManager<AppUser> _signInManager, IEmailService emailService)
         {
             this._userManager = _userManager;
             this._roleManager = _roleManager;
@@ -33,36 +35,36 @@ namespace Dentist.Services
         {
             List<AppUser> users = await _userManager.Users.ToListAsync();
             return users;
-            
+
         }
 
         public async Task<bool> Registration(RegistrationDTO registrationDTO)
-        {                
-               AppUser user = new()
-                {
-                   firstName = registrationDTO.FirstName,
-                   LastName = registrationDTO.LastName,
-                   UserName = registrationDTO.UserName,
-                   Email = registrationDTO.Email,
-                   PhoneNumber = registrationDTO.PhoneNumber,
-                   Address = registrationDTO.Address
-                   
-               };
-                IdentityResult addUserResult = await _userManager.CreateAsync(user, registrationDTO.Password);
+        {
+            AppUser user = new()
+            {
+                firstName = registrationDTO.FirstName,
+                LastName = registrationDTO.LastName,
+                UserName = registrationDTO.UserName,
+                Email = registrationDTO.Email,
+                PhoneNumber = registrationDTO.PhoneNumber,
+                Address = registrationDTO.Address
 
-                IdentityRole role = new IdentityRole("Doctor");
-                IdentityResult result = await _roleManager.CreateAsync(role);
+            };
+            IdentityResult addUserResult = await _userManager.CreateAsync(user, registrationDTO.Password);
 
-                IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Doctor");
-       
-                if (addUserResult.Succeeded && addRoleToUserResult.Succeeded)
-                {
-                    return true;
-                }
-                else return false;                       
+            IdentityRole role = new IdentityRole("Doctor");
+            IdentityResult result = await _roleManager.CreateAsync(role);
+
+            IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Doctor");
+
+            if (addUserResult.Succeeded && addRoleToUserResult.Succeeded)
+            {
+                return true;
+            }
+            else return false;
         }
 
-        public string LoginGenerateToken(LoginDTO loginDTO, AppUser user , List<string> userRoles)
+        public string LoginGenerateToken(LoginDTO loginDTO, AppUser user, List<string> userRoles)
         {
 
             //Generate Token
@@ -89,63 +91,14 @@ namespace Dentist.Services
             claims: claims);
 
             var token = new JwtSecurityTokenHandler().WriteToken(myToken);
-
-
-            return token;
-
-
-
-
-            //AppUser? user = await _userManager.FindByEmailAsync(loginDTO.Email);
-            //if (user != null)
-            //{
-            //    //await _signInManager.SignInAsync(user, loginDTO.presisted);
-
-            //        bool valid = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
-            //        if (valid)
-            //        {
-
-            //        //Generate Token
-            //        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_123456"));
-            //        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            //        var claims = new List<Claim>();
-            //        claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            //        claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
-            //        claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-
-
-            //        //Get Role
-            //        var userRoles = await _userManager.GetRolesAsync(user);
-            //        foreach (var userRole in userRoles)
-            //        {
-            //            claims.Add(new Claim(ClaimTypes.Role, userRole));
-            //        }
-
-
-            //        var myToken = new JwtSecurityToken(
-            //        expires: DateTime.Now.AddMinutes(120),
-            //        signingCredentials: credentials,
-            //        claims: claims);
-            //        var token = new JwtSecurityTokenHandler().WriteToken(myToken);
-
-
-            //        return token;
-
-
-            //        }
-            //    return "Wrong Email Or Password";
-
-            //}
-
-            //else return "User Not Found";
+            return token;     
         }
-               
 
-           
-           
 
-  
+
+
+
+
         public async Task<bool> Login(LoginDTO loginDTO)
         {
             try
@@ -186,7 +139,7 @@ namespace Dentist.Services
                 // Handle the exception (e.g., log it)
                 return false;
             }
-            
+
         }
 
 
@@ -200,8 +153,8 @@ namespace Dentist.Services
                 {
 
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    //token = HttpUtility.UrlEncode(token);
                     //var link = Url.Action(nameof(ResetPassword), "User", new { token, email = user.Email }, Request.Scheme);
+                    token = HttpUtility.UrlEncode(token);
 
                     EmailDto request = new EmailDto()
                     {
@@ -219,7 +172,31 @@ namespace Dentist.Services
 
         }
 
-    }
+   
 
+        public async Task<string> ResetPassword(ResetPasswordDTO resetPasswordDTO)
+        {
+
+            AppUser? user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+            if (user != null)
+            {
+                //resetPasswordDTO.EmailToken = HttpUtility.UrlDecode(resetPasswordDTO.EmailToken);
+                IdentityResult resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordDTO.EmailToken, resetPasswordDTO.NewPassword);
+
+                if (resetPassResult.Succeeded == false)
+                {
+                    //foreach (var error in resetPassResult.Errors)
+                    //{
+                    //    ModelState.TryAddModelError(error.Code, error.Description);
+                    //}
+                    return "identity result";
+                }
+                return "Ok";
+            }
+            return "user not found";
+
+
+        }
+    }
 
 }

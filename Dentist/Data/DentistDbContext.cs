@@ -13,6 +13,15 @@ namespace Dentist.Data
         {
             //modelBuilder.Entity<ShopingCart>().HasKey(s => new { s.AppUserId, s.bookId });
             //modelBuilder.Entity<OrderDetail>().HasKey(o => new { o.orderId, o.bookId });
+            //modelBuilder.Entity<Schedule>()
+            // .HasOne(s => s.Doctor)
+            // .WithMany(u => u.Schedules)
+            // .HasForeignKey(s => s.DocotrId);
+            
+            //// Filter the Schedule entities based on the user's role
+            //modelBuilder.Entity<Schedule>()
+            //    .HasQueryFilter(s => s.Doctor == "patient"); // Only allow "patient" role
+        
 
             base.OnModelCreating(modelBuilder);
         }

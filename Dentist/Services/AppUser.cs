@@ -15,10 +15,11 @@ namespace Dentist.Services
         [MaxLength(100)]
         public string Address { get; set; }
 
-        //public virtual List<Order>? Order { get; set; } = new List<Order>();
 
-        //public virtual Review? Review { get; set; }
-        //public virtual ShopingCart? ShopingCart { get; set; }
+
+        // Navigation property to represent the user's schedules
+        //public List<Schedule> Schedules { get; set; }  = new List<Schedule>();
+
         public override string ToString()
         {
             return this.firstName + this.LastName + this.Address;

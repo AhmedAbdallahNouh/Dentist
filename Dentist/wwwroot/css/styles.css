@@ -11753,10 +11753,15 @@ ul{
 }
 
 .main-login-image-container img {
-    width: 89%;
-    display: block; /* Ensure the image is a block-level element */
-    margin: 0 auto; /* Center the image horizontally within the container */
+    width: 77%;
+    position: relative;
+    right: 4rem;
+    bottom: 2rem;
+    height: 51rem;
+    display: block;
+    margin: 0 auto;
 }
+
 
 .login-input {
     line-height: 2.5;

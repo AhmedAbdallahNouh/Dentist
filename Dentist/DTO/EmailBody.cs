@@ -16,8 +16,8 @@
             <p>You're reciving this e-mail beacause you requested a password reset for your Ketab account.</p>
             <p>plaese tap the button below to choose a new password.</p>
             
-            <a href='http://localhost:4200/login' target='_blank'>Login</a>
-            <a href=""http://localhost:4200/reset?email={email}&code={emailToken}"" target=""_blank"" style=""background:#0d6efd;padding:10px;boeder:none;
+            <a href='http://localhost:5249/login' target='_blank'>Login</a>
+            <a href=""http://localhost:5249/resetpassword/{email}/{emailToken}"" target=""_blank"" style=""background:#0d6efd;padding:10px;boeder:none;
             color:ehite;border-radius:4px;display:block;margin:0 auto; width50%;text-align:center;text-decoration:none"">Reset Password</a><br>
             
             <p>Kind Regards, <br><br>

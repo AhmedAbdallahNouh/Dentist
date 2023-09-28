@@ -22,14 +22,14 @@ namespace Dentist.Services
             try
             {
                 var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailHost").Value));
+                email.From.Add(MailboxAddress.Parse(_config.GetSection("EmailUsername").Value));
                 email.To.Add(MailboxAddress.Parse(request.To));
                 email.Subject = request.Subject;
                 email.Body = new TextPart(TextFormat.Html) { Text = request.Body };
 
                 using var smtp = new MailKit.Net.Smtp.SmtpClient();
-                smtp.Connect(_config.GetSection("EmailHost").Value, 465, SecureSocketOptions.StartTls);
-                smtp.Authenticate(_config.GetSection("EmailHost").Value, _config.GetSection("EmailPassword").Value);
+                smtp.Connect(_config.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_config.GetSection("EmailUsername").Value, _config.GetSection("EmailPassword").Value);
                 smtp.Send(email);
                 smtp.Disconnect(true);
 
@@ -38,7 +38,7 @@ namespace Dentist.Services
             {
                     var a = ex.Message;
             }
-            System.Net.Mail.SmtpClient smtpClient = new System.Net.Mail.SmtpClient("smtp.mail.ru");
+           
            
         }
     }
