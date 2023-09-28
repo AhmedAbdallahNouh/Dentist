@@ -42,20 +42,21 @@ namespace Dentist.Services
         {
             AppUser user = new()
             {
+
                 firstName = registrationDTO.FirstName,
                 LastName = registrationDTO.LastName,
                 UserName = registrationDTO.UserName,
                 Email = registrationDTO.Email,
                 PhoneNumber = registrationDTO.PhoneNumber,
-                Address = registrationDTO.Address
+                Address = registrationDTO.Address,
 
             };
             IdentityResult addUserResult = await _userManager.CreateAsync(user, registrationDTO.Password);
 
-            IdentityRole role = new IdentityRole("Doctor");
+            IdentityRole role = new IdentityRole("Patient");
             IdentityResult result = await _roleManager.CreateAsync(role);
 
-            IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Doctor");
+            IdentityResult addRoleToUserResult = await _userManager.AddToRoleAsync(user, "Patient");
 
             if (addUserResult.Succeeded && addRoleToUserResult.Succeeded)
             {

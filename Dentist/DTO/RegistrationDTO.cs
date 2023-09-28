@@ -34,5 +34,7 @@ namespace Dentist.DTO
 
         [DataType(DataType.Date)]
         public DateTime RegisterDate { get; set; }
+
+
     }
 }
